@@ -28,3 +28,13 @@ Aunque nosotros crearemos un proyecto nuevo vacío pulsando el botón "Nuevo", O
 * En la parte central, abajo, veremos un panel llamado "Consola", nos permitirá ver el proceso que sigue OpenSCAD al construir nuestros modelos, incluyendo los errores que cometamos.
 * En la parte central, derecha, veremos los errores que cometamos y el punto exacto donde los hemos cometido.
 * En la parte derecha, veremos un panel llamado "Customizer" que nos permitirá modificar algunas opciones, en este tutorial *no lo usaremos*
+
+### Un primer modelo
+
+Escribe en la parte izquierda el siguiente código::
+
+    cube ([12, 3, 4])
+
+Pulsa despues F6 y verás esto:
+
+![Un primer modelo OpenSCAD](capturas/03-primer-modelo.png)
