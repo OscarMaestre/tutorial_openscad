@@ -120,11 +120,12 @@ Deberías ver algo como esto:
 
 ![Pieza en H](capturas/04-h.png)
 
-Observa ahora el potencial de usar las variables. Vamos a modificar el ancho de las barras horizontales y pondremos ``profundo_y`` a 6 (omitimos los comentarios por brevedad)::
+Observa ahora el potencial de usar las variables. Vamos a modificar ancho_x y lo ponemos a 20 (omitimos los comentarios por brevedad)::
 
-    ancho_x=12;
+
+    ancho_x=20;
     alto_z=4;
-    profundo_y=6;
+    profundo_y=3;
     cube( [ancho_x, profundo_y, alto_z], center=true);
 
     arista_cubo=3;
@@ -133,3 +134,48 @@ Observa ahora el potencial de usar las variables. Vamos a modificar el ancho de 
 
     translate([0, 0, profundo_y+arista_cubo]) 
         cube ([ancho_x, profundo_y, alto_z], center=true);
+
+![Pieza en H alargada](capturas/05-parametros1.png)
+
+Sin embargo, esto no implica que la pieza esté bien parametrizada. Prueba a cambiar el alto o la profundidad y verás que hay que recalcular. Se deja como ejercicio.
+
+## Objetos: esfera
+
+Se usa así::
+
+    //Crea una esfera de radio 3
+    sphere(r=3)
+
+Si queremos crear una esfera en otro punto del espacio, podemos usar ``translate``. Así, por ejemplo, esto crea dos esferas, una en el centro y la otra un poco más a la derecha::
+
+    sphere(r=2);
+    translate([4, 0, 0]) sphere(r=2);
+
+El resultado de este código es esto:
+
+![Esferas con baja resolución](capturas/06-esferas-1.png)
+
+
+Un detalle es que por defecto, las esferas tienen una resolución muy baja y de hecho prácticamente parecen poliedros. Si queremos aumentar la cantidad de "caras" que tienen las esferas podemos usar un parámetro extra llamado "$fn"::
+
+    //Esferas con alta resolución
+    sphere(r=2, $fn=40);
+    translate([4, 0, 0]) sphere(r=2, $fn=40);
+
+![Esferas con alta resolución](capturas/06-esferas-2.png)
+
+El parámetro $fn indica la cantidad de fragmentos por arco. El programa recomienda mantenerse por debajo de 50 y no poner nunca valores mayores de 128.
+
+## Objetos: cilindro
+
+Todo cilindro debe llevar una altura, un radio asociado al círculo de la base inferior y un radio asociado al círculo de la base superior. También puede llevar un parámetro ``center=true`` que actúa igual que con los cubos::
+
+    //Creamos un tronco de cono con una resolución intermedia
+    cylinder(5, 2, 1, $fn=40);
+
+    //Y al lado un cilindro normal cuyo "centro" está en el punto al que ha sido trasladado
+    translate([7, 0, 0]) cylinder(5, 1.5, 1.5, center=true, $fn=40);
+
+![Cilindro](capturas/07-cilindros.png)
+
+Aunque ``cylinder`` está pensado para crear cilindros se puede jugar con valores bajos de ``$fn`` y crear prismas. A modo de ejercicio se anima al lector a probar con valores de $fn de 3, 4, y 5
