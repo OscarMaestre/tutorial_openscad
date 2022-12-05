@@ -93,7 +93,7 @@ En una variable podemos almacenar números y textos. Si necesitamos trabajar con
 
 Es frecuente usar los vectores con coordenadas. De hecho, nuestro modelo inicial usaba las coordenadas ``x=12``, ``y=3``, ``z=4``.
 
-## Objetos: cubo
+## Objetos 3D: cubo
 
 Podemos crear cubos de dos maneras:
 
@@ -161,7 +161,7 @@ Observa ahora el potencial de usar las variables. Vamos a modificar ``ancho_x`` 
 
 Sin embargo, esto no implica que la pieza esté bien parametrizada. Prueba a cambiar el alto o la profundidad y verás que hay que recalcular. Se deja como ejercicio.
 
-## Objetos: esfera
+## Objetos 3D: esfera
 
 Se usa así:
 
@@ -188,7 +188,7 @@ Un detalle es que por defecto, las esferas tienen una resolución muy baja y de 
 
 El parámetro $fn indica la cantidad de fragmentos por arco. El programa recomienda mantenerse por debajo de 50 y no poner nunca valores mayores de 128.
 
-## Objetos: cilindro
+## Objetos 3D: cilindro
 
 Todo cilindro debe llevar una altura, un radio asociado al círculo de la base inferior y un radio asociado al círculo de la base superior. También puede llevar un parámetro ``center=true`` que actúa igual que con los cubos:
 
@@ -293,10 +293,161 @@ Aquí tenemos dos esferas:
         translate([20, 20, 0])
             sphere(r=10);
 
-![Una esfera escalada](capturas/11-escalado.png)
+![Una esfera escalada](capturas/11-escalado.png){width=100%}
 
 Si hacemos esto con ``resize`` 
 
-![Escalado con resize](capturas/12-resize.png)
+![Escalado con resize](capturas/12-resize.png){width=100%}
 
 Obsérvese que en este caso, no es lo mismo aplicar primero ``resize`` y luego ``translate`` que hacer ``translate`` y luego ``resize`` 
+
+## Objetos 2D
+
+Las figuras 2D solo se muestran con la previsualización (F5). En el modo renderizado solo se ve su silueta.
+
+Por supuesto, a los objetos 2D se les pueden aplicar las transformaciones que ya conocemos: traslación, escalado, redimensionado y coloreado.
+
+## Objetos 2D: rectángulos
+
+
+En cuando al código se puede usar esto para crear rectángulos. Recuérdese que un cuadrado es un rectángulo con ambos lados iguales:
+
+    square([10,20],  center=true);
+
+
+![Cuadrado](capturas/13-cuadrado.png){width=100%}
+
+
+
+## Objetos 2D: círculos
+
+Esto crea un círculo de radio 10:
+
+    circle(10);
+
+![Círculo](capturas/14-circulo.png){width=100%]
+
+
+Y simular una elipse usando el reescalado con ``scale`` :
+
+    //Podemos construir 
+    //una elipse escalando
+    //un círculo
+    scale([2, 0.5])
+        circle(10);
+
+![Elipse](capturas/15-elipse.png){width=100%]
+
+## Objetos 2D: polígonos regulares
+
+Usando ``circle`` se pueden construir polígonos regulares usando ``$fn`` y pasando el número de caras del polígono. Aquí se muestra un pentágono:
+
+    //Pentágono
+    circle(10, $fn=5);
+
+![Pentágono](capturas/16-pentagono.png){width=100%]
+
+## Objetos 2D: polígonos irregulares
+
+Si indicamos una secuencia de puntos a la función ``polygon`` podremos crear polígonos con cualquier forma:
+
+    polygon([
+        [0,0], 
+        [7,0],
+        [4,8],
+        [2,6]
+    ]);
+
+![Polígono irregular](capturas/17-poligono-irregular.png){width=100%]}
+
+## Objetos 2d: texto
+
+Para escribir un texto en el modelo podemos usar ``text``::
+
+    //Cubo
+    cube([10, 10, 10]);
+
+    //Un texto movido hacia abajo
+    //un poco empequeñecido
+    //y de color azul
+    translate([0, -5, 0])
+        scale([0.5, 0.5, 0.5])
+            color([0.5, 0.75, 1])
+                text("Cubo");
+
+![Texto](capturas/19-texto.png){width=100%}
+
+## Operadores: extrusión
+
+Un polígono 2D se puede "prolongar" a lo largo del eje Z y así **construir una figura 3D a partir de un polígono 2D**. A esta operación se le denomina "extruir". Tomemos el polígono anterior y extruyámoslo a lo largo de 20 puntos del eje Z:
+
+    linear_extrude(10)
+        polygon([
+            [0,0], 
+            [7,0],
+            [4,8],
+            [2,6]
+        ]);
+
+![Polígono extruido](capturas/18-extrusion.png){width=100%}
+
+
+La extrusión acepta un parámetro ``twist`` que permite indicar si el objeto irá girando mientras "se estira"::
+
+    //Pentágono extruido 
+    //10 unidades hacia arriba
+    //Va girando hacia arriba hasta
+    //terminar girado 45 grados
+    //respecto al original
+    //y con 100 "secciones" en total
+    linear_extrude(10, twist=45, slices=100)
+        circle(5, $fn=5);
+        
+        
+![Pentágono extruido y rotado](capturas/20-extrusion-rotada.png){width=100%}
+
+## Operadores: extrusión II, superficies en revolución
+
+Si tomamos un polígono irregular y lo rotamos sobre un cierto eje, podemos hacer "girar" dicha superficie y construir un objeto 3D a partir de uno 2D. Tomemos el polígono irregular que construimos antes y hagámoslo girar con ``rotate_extrude``::
+
+    rotate_extrude($fn=40)
+        polygon([
+            [0,0], 
+            [7,0],
+            [4,8],
+            [2,6]
+        ]);
+
+![Superficie de revolución](capturas/21-revolucion.png){width=100%}
+
+## Operadores: diferencia
+
+Es posible tomar un objeto en 3D y "restarle" otro. De esa manera, tendremos la figura primera pero con parte de ella eliminada. Observemos como podemos tener un prisma y una esfera ocupando el mismo espacio:
+
+    //Primer operando: un cubo
+    cube([10, 10, 10], center=true);
+
+    //Segundo operando: esfera movida
+    //arriba
+    translate([0, 0, 5])
+        sphere(2.5, $fn=30);
+
+![Cubo y esfera](capturas/22-figuras-unidas.png)
+
+Sin embargo, si hacemos que esto en realidad sea una resta:
+
+
+    difference()
+    {
+        //Primer operando: un cubo
+        cube([10, 10, 10], center=true);
+
+        //Segundo operando: esfera movida
+        //arriba
+
+        translate([0, 0, 5])
+            sphere(2.5, $fn=30);
+    } //Fin de la diferencia
+
+
+![Diferencia entre piezas](capturas/23-diferencia.png)
