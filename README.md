@@ -1,9 +1,17 @@
+---
+title: Tutorial de OpenSCAD
+author: Oscar GG
+date: Diciembre de 2022
+lang: es-ES
+---
 # Tutorial de OpenSCAD
 
 
 ## Introducción
 
 OpenSCAD es un programa CAD (Computer Aided Design o Diseño asistido por ordenador) en 3D. La característica principal es que OpenSCAD *no se maneja usando el ratón* sino por medio de un lenguaje. Esto que a primera vista parece mucho más incómodo se vuelve en realidad mucho más potente cuando queremos construir estructuras repetitivas.
+
+El apartado interesante de los programas de este tipo es la capacidad de **imprimir las piezas** usando una impresora en 3D. Aunque no se disponga de una, hay muchos servicios en Internet que las imprimen y envían a domicilio a precios cada día menores.
 
 OpenSCAD tiene versiones para los principales sistemas operativos: Windows, Mac y Linux y no necesita instalación: puede descargarse un ZIP, descomprimirlo y simplemente ejecutar el programa
 
@@ -29,13 +37,27 @@ Aunque nosotros crearemos un proyecto nuevo vacío pulsando el botón "Nuevo", O
 * En la parte central, derecha, veremos los errores que cometamos y el punto exacto donde los hemos cometido.
 * En la parte derecha, veremos un panel llamado "Customizer" que nos permitirá modificar algunas opciones, en este tutorial *no lo usaremos*
 
+## Previsualización y renderizado
+
+OpenSCAD permite dos operaciones que aparentemente son iguales: previsualizar y renderizar.
+
+* Previsualizar requiere pulsar F5 y nos permitirá ver los colores de las piezas (veremos los colores más adelante). Usa un algoritmo con aproximaciones, lo que lo hace más rápido pero también maś impreciso.
+
+* Renderizar requiere pulsar F6. No muestra los colores de las piezas pero usa un algoritmo sin aproximaciones, por lo que el resultado que veremos será el que se obtenga al imprimir una pieza.
+
+## Exportación a STL
+
+Si en cualquier momento deseamos imprimir una pieza o enviarla a alguno de los servicios de impresión mencionados, casi con toda probabilidad necesitaremos exportar nuestro diseño al formato STL (viene de STereoLitography, un formato casi universal para la impresión de piezas).
+
+Esta opción está en el menú File, dentro de Export. Si usamos el programa en español será en Archivo, en la opción Exportar.
+
 ### Un primer modelo
 
 Escribe en la parte izquierda el siguiente código::
 
     cube ([12, 3, 4])
 
-Pulsa despues F6 y verás algo esto:
+Pulsa despues F6 y verás algo como esto:
 
 ![Un primer modelo OpenSCAD](capturas/03-primer-modelo.png)
 
@@ -69,7 +91,7 @@ En una variable podemos almacenar números y textos. Si necesitamos trabajar con
     nombre="Modelo A1";
     coordenadas=[12, 3, 4];
 
-Es frecuente usar los vectores con coordenadas. De hecho, nuestro modelo inicial usaba las coordenadas x=12, y=3, z=4
+Es frecuente usar los vectores con coordenadas. De hecho, nuestro modelo inicial usaba las coordenadas ``x=12``, ``y=3``, ``z=4``.
 
 ## Objetos: cubo
 
@@ -179,3 +201,76 @@ Todo cilindro debe llevar una altura, un radio asociado al círculo de la base i
 ![Cilindro](capturas/07-cilindros.png)
 
 Aunque ``cylinder`` está pensado para crear cilindros se puede jugar con valores bajos de ``$fn`` y crear prismas. A modo de ejercicio se anima al lector a probar con valores de $fn de 3, 4, y 5
+
+## Operadores: rotación
+
+Permite rotar uno o varios objetos en varios ejes. La rotación se mide en grados::
+
+    //Cub que mide:
+    //10 unidades en el eje X
+    //5  unidades en el eje Y
+    //20 unidades en el eje Z
+    cube([10, 5, 20], center=true);
+
+![Caja](capturas/08-caja-sin-rotar.png)
+
+Si ahora rotamos en el eje de las X::
+
+    //EXACTAMENTE el mismo
+    //objeto, pero movido 45 grados
+    //usando x como eje de rotación 
+    rotate(a=[45, 0,0]) cube([10, 5, 20], center=true);
+
+Obtenemos esto:
+
+![Caja rotada en el eje de las X](capturas/08-caja-rotada-x.png)
+
+O rotamos en el eje de las Y::
+
+    //EXACTAMENTE el mismo
+    //objeto, pero movido 60 grados
+    //usando y como eje de rotación 
+    rotate(a=[0, 60,0]) cube([10, 5, 20], center=true);
+
+Lo que produce esto otro:
+
+![Caja rotada en el eje de las Y](capturas/08-caja-rotada-y.png)
+
+
+Para saber en qué sentido se usa la **regla de la mano derecha.** Movemos nuestra mano hasta que el pulgar se alinee con el sentido positivo de un eje y luego observamos el sentido de giro de los dedos (imagen tomada de Wikipedia)
+
+![Regla mano derecha](capturas/09-mano.png)
+
+Así, por ejemplo, para saber como funciona una rotación sobre el eje X ponemos nuestro pulgar apuntando hacia la derecha y observamos como los dedos indican que el objeto "se inclinará hacia nosotros" al poner una rotación positiva. Si rotamos usando Z, pondremos el pulgar hacia arriba y veremos que entonces el objeto rota "desde nuestra derecha hacia nuestra izquierda".
+
+## Operadores: encadenamiento de operadores y color
+
+Para ver esto, se debe usar la *previsualización* de piezas con F5, no el renderizado completo con F6.
+
+Esto **no influye en nada si imprimimos una pieza** pero puede ser útil. Podemos modificar el color de una pieza usando valores RGB con valores comprendidos entre 0.0 (que indica el mínimo de ese color) hasta 1.0 (que indica el máximo de ese color).
+
+Para el ejemplo siguiente hemos encadenado varios operadores uno detrás de otro, lo que implica poder hacer varias transformaciones a la vez a una pieza determinada::
+
+
+    //Cubo completamente rojo
+    //ubicado en el centro
+    color([1, 0, 0]) 
+        cube([10, 10, 10]);
+
+
+    //Cubo verde ubicado
+    //a la derecha
+    color([0, 1, 0])
+        translate([12, 0, 0])
+        cube([10, 10, 10]);
+        
+    //Cubo azul ubicado
+    //aún más a la derecha
+    color([0, 0, 1])
+        translate([24, 0, 0])
+        cube([10, 10, 10]);
+
+
+Que produce esto:
+
+![Cubos de colores](capturas/10-colores.png)
