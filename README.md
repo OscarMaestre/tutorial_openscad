@@ -19,11 +19,11 @@ OpenSCAD tiene versiones para los principales sistemas operativos: Windows, Mac 
 
 Al ejecutar el programa veremos algo como esto:
 
-![Ventana inicial](capturas/01-inicio.png){width=100%}
+![Ventana inicial](capturas/01-inicio.png){ width=100% }
 
 Aunque nosotros crearemos un proyecto nuevo vacío pulsando el botón "Nuevo", OpenSCAD ofrece algunos ejemplos creados y que nos permiten ver algunas de las capacidades. Despues de crear un nuevo proyecto, veremos algo como esto:
 
-![Interfaz de OpenSCAD](capturas/02-interfaz.png){width=100%}
+![Interfaz de OpenSCAD](capturas/02-interfaz.png){ width=100% }
 
 ### Descripción del interfaz
 
@@ -59,7 +59,7 @@ Escribe en la parte izquierda el siguiente código:
 
 Pulsa despues F6 y verás algo como esto:
 
-![Un primer modelo OpenSCAD](capturas/03-primer-modelo.png){width=100%}
+![Un primer modelo OpenSCAD](capturas/03-primer-modelo.png){ width=100% }
 
 Si dejas pulsado el botón principal del ratón y "arrastras" el escenario, podrás cambiar el punto de vista. Si usas la rueda del ratón podrás cambiar la escala del modelo. Usa ambas posibilidades para explorar el modelo desde todos los puntos de vista.
 
@@ -108,7 +108,7 @@ Podemos crear cubos de dos maneras:
     //3 en la y y 4 en la z
     cube( [12, 3, 4], center=true);
 
-![El mismo modelo centrado](capturas/03a-primer-modelo-centrado.png){width=100%}
+![El mismo modelo centrado](capturas/03a-primer-modelo-centrado.png){ width=100% }
 
 Si combinamos este proceso con variables, podemos hacer cosas como esta:
 
@@ -140,9 +140,9 @@ Es posible hacer que un objeto se traslado a otro punto del espacio usando ``tra
 
 Deberías ver algo como esto:
 
-![Pieza en H](capturas/04-h.png){width=100%}
+![Pieza en H](capturas/04-h.png){ width=100% }
 
-Observa ahora el potencial de usar las variables. Vamos a modificar ancho_x y lo ponemos a 20 (omitimos los comentarios por brevedad):
+Observa ahora el potencial de usar las variables. Vamos a modificar ``ancho_x`` y lo ponemos a 20 (omitimos los comentarios por brevedad):
 
 
     ancho_x=20;
@@ -157,7 +157,7 @@ Observa ahora el potencial de usar las variables. Vamos a modificar ancho_x y lo
     translate([0, 0, profundo_y+arista_cubo]) 
         cube ([ancho_x, profundo_y, alto_z], center=true);
 
-![Pieza en H alargada](capturas/05-parametros1.png){width=100%}
+![Pieza en H alargada](capturas/05-parametros1.png){ width=100% }
 
 Sin embargo, esto no implica que la pieza esté bien parametrizada. Prueba a cambiar el alto o la profundidad y verás que hay que recalcular. Se deja como ejercicio.
 
@@ -175,7 +175,7 @@ Si queremos crear una esfera en otro punto del espacio, podemos usar ``translate
 
 El resultado de este código es esto:
 
-![Esferas con baja resolución](capturas/06-esferas-1.png){width=100%}
+![Esferas con baja resolución](capturas/06-esferas-1.png){ width=100% }
 
 
 Un detalle es que por defecto, las esferas tienen una resolución muy baja y de hecho prácticamente parecen poliedros. Si queremos aumentar la cantidad de "caras" que tienen las esferas podemos usar un parámetro extra llamado ``$fn`` que regula esto:
@@ -184,7 +184,7 @@ Un detalle es que por defecto, las esferas tienen una resolución muy baja y de 
     sphere(r=2, $fn=40);
     translate([4, 0, 0]) sphere(r=2, $fn=40);
 
-![Esferas con alta resolución](capturas/06-esferas-2.png){width=100%}
+![Esferas con alta resolución](capturas/06-esferas-2.png){ width=100% }
 
 El parámetro $fn indica la cantidad de fragmentos por arco. El programa recomienda mantenerse por debajo de 50 y no poner nunca valores mayores de 128.
 
@@ -199,7 +199,7 @@ Todo cilindro debe llevar una altura, un radio asociado al círculo de la base i
     //está en el punto al que ha sido trasladado
     translate([7, 0, 0]) cylinder(5, 1.5, 1.5, center=true, $fn=40);
 
-![Cilindro](capturas/07-cilindros.png){width=100%}
+![Cilindro](capturas/07-cilindros.png){ width=100% }
 
 Aunque ``cylinder`` está pensado para crear cilindros se puede jugar con valores bajos de ``$fn`` y crear prismas. A modo de ejercicio se anima al lector a probar con valores de $fn de 3, 4, y 5
 
@@ -213,7 +213,7 @@ Permite rotar uno o varios objetos en varios ejes. La rotación se mide en grado
     //20 unidades en el eje Z
     cube([10, 5, 20], center=true);
 
-![Caja](capturas/08-caja-sin-rotar.png){width=100%}
+![Caja](capturas/08-caja-sin-rotar.png){ width=100% }
 
 Si ahora rotamos en el eje de las X:
 
@@ -224,7 +224,7 @@ Si ahora rotamos en el eje de las X:
 
 Obtenemos esto:
 
-![Caja rotada en el eje de las X](capturas/08-caja-rotada-x.png){width=100%}
+![Caja rotada en el eje de las X](capturas/08-caja-rotada-x.png){ width=100% }
 
 O rotamos en el eje de las Y:
 
@@ -235,12 +235,12 @@ O rotamos en el eje de las Y:
 
 Lo que produce esto otro:
 
-![Caja rotada en el eje de las Y](capturas/08-caja-rotada-y.png){width=100%}
+![Caja rotada en el eje de las Y](capturas/08-caja-rotada-y.png){ width=100% }
 
 
 Para saber en qué sentido se usa la **regla de la mano derecha.** Movemos nuestra mano hasta que el pulgar se alinee con el sentido positivo de un eje y luego observamos el sentido de giro de los dedos (imagen tomada de Wikipedia)
 
-![Regla mano derecha](capturas/09-mano.png){width=100%}
+![Regla mano derecha](capturas/09-mano.png){ width=100% }
 
 Así, por ejemplo, para saber como funciona una rotación sobre el eje X ponemos nuestro pulgar apuntando hacia la derecha y observamos como los dedos indican que el objeto "se inclinará hacia nosotros" al poner una rotación positiva. Si rotamos usando Z, pondremos el pulgar hacia arriba y veremos que entonces el objeto rota "desde nuestra derecha hacia nuestra izquierda".
 
@@ -254,7 +254,7 @@ Para el ejemplo siguiente hemos encadenado varios operadores uno detrás de otro
 
 
     //Cubo completamente rojo
-    //ubicado en el centro
+    //con una esquina en el centro
     color([1, 0, 0]) 
         cube([10, 10, 10]);
 
@@ -274,4 +274,29 @@ Para el ejemplo siguiente hemos encadenado varios operadores uno detrás de otro
 
 Que produce esto:
 
-![Cubos de colores](capturas/10-colores.png){width=100%}
+![Cubos de colores](capturas/10-colores.png){ width=100% }
+
+## Operadores: redimensionado
+
+Se puede deformar un objeto cualquiera usando ``resize`` y ``scale``.
+
+* El operador ``scale`` usa *escalas*, así que si indicamos una escala como ``[2, 1.5, 0.5]`` haremos que un objeto sea *el doble mayor* en X, *un 50% más grande* en Y y un *50% más pequeño* en Z.
+* El operador ``resize`` usa *cajas*. Si por ejemplo indicamos que un objeto se redimensione usando ``[30, 40, 10]`` indicaremos que el objeto deme pasar a medir 30 en el eje X, 40 en Y y 10 en Z. Esta operación requiere bastante precisión y puede ser más lenta de renderizar.
+
+Aquí tenemos dos esferas:
+
+    /*Una esfera normal*/
+    sphere(r=10);
+    //Una esfera tan "achatada"
+    //que se ha convertido en disco
+    scale ([1, 1, 0.2]) 
+        translate([20, 20, 0])
+            sphere(r=10);
+
+![Una esfera escalada](capturas/11-escalado.png)
+
+Si hacemos esto con ``resize`` 
+
+![Escalado con resize](capturas/12-resize.png)
+
+Obsérvese que en este caso, no es lo mismo aplicar primero ``resize`` y luego ``translate`` que hacer ``translate`` y luego ``resize`` 
