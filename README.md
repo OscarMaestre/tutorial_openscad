@@ -367,7 +367,7 @@ Para escribir un texto en el modelo podemos usar ``text``::
     //Cubo
     cube([10, 10, 10]);
 
-    //Un texto movido hacia abajo
+    //Un texto movido hacia abajo,
     //un poco empequeñecido
     //y de color azul
     translate([0, -5, 0])
@@ -451,3 +451,37 @@ Sin embargo, si hacemos que esto en realidad sea una resta:
 
 
 ![Diferencia entre piezas](capturas/23-diferencia.png)
+
+## Bucles
+
+En OpenSCAD es posible repetir operaciones usando ``for`` Dentro de ``for`` podemos tener una o varias variables que vayan cambiando de valor y utilizar dichas variables en piezas que tengan características comunes:
+
+    //Esto pone esferas de radio 1 a 
+    //lo largo del eje X, poniendo
+    //en X valores desde -20 hasta +20
+    //y avanzando de 4 en 4.
+    //Es decir, se pone una esfera
+    //de radio 1 en x=-20, x=-16,
+    //x=-12, ...x=12, x=16, x=20
+    for(x=[-20:4:20])
+    {
+        translate([x, 0, 0])
+            sphere(1, $fn=10);
+    }
+
+![Bucle con esferas](capturas/24-bucle-esferas.png)
+
+Aunque se pueden usar bucles ``for`` dentro de otros
+bucles ``for`` en OpenSCAD se pueden poner directamente todas las variables que queramos cambiar y OpenSCAD irá generando todas las combinaciones de valores posibles.
+
+Por ejemplo, aquí se muestra un programa que pone esferas a lo largo de un plano entero. Este programa genera muchos objetos y puede que tarde un minuto o más en renderizar el resultado, así que puede ser útil usar F5 (Previsualizar) en lugar de F6 (Renderizar)
+
+    for (x=[-20:4:20], y=[-20:4:20]){
+        translate([x, y, 0])
+            sphere(1, $fn=10);
+    }
+
+![Plano de esferas](capturas/25-matriz-esferas.png)
+
+## Un ejemplo de modelo
+
