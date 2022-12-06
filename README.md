@@ -15,6 +15,13 @@ El apartado interesante de los programas de este tipo es la capacidad de **impri
 
 OpenSCAD tiene versiones para los principales sistemas operativos: Windows, Mac y Linux y no necesita instalación: puede descargarse un ZIP, descomprimirlo y simplemente ejecutar el programa
 
+## Descargas
+
+Este tutorial puede descargarse para su impresión en varios formatos:
+
+* [Tutorial de OpenSCAD en formato ODT (LibreOffice).](https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.odt)
+* [Tutorial de OpenSCAD en formato PDF.](https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.pdf)
+
 ## Primeros pasos
 
 Al ejecutar el programa veremos algo como esto:
@@ -483,5 +490,87 @@ Por ejemplo, aquí se muestra un programa que pone esferas a lo largo de un plan
 
 ![Plano de esferas](capturas/25-matriz-esferas.png)
 
-## Un ejemplo de modelo
+## Funciones y módulos
 
+Es posible construir nuestras propios subprogramas:
+
+* Las funciones devuelven valores.
+* Los módulos realizan operaciones.
+
+Las funciones se definen así:
+
+    funcion nombre(parametro1, parametro2)= valor
+
+Podemos poner tantos parámetros como queramos y el valor puede ser un resultado tan complejo como queramos. De hecho, es frecuente que sea necesario usar paréntesis para poder determinar claramente como realizar el cálculo.
+
+Un módulo define una operación que puede ser mucho más compleja y que probablemente involucre crear una o más figuras. Se definen así:
+
+    module nombre(parametro1, parametro2)
+    {
+        operacion1;
+        operacion2;
+        ...
+        operacionn;
+    }
+
+## Un ejemplo de construcción de módulo
+
+Supongamos que queremos construir un módulo que nos permita construir un puente:
+
+    longitud_x      =10;
+    anchura_y       =4;
+    altura_puente   =6;
+
+    cube([longitud_x, anchura_y, altura_puente,]);
+
+![Casa, primer boceto](capturas/26-casa01.png)
+
+Si ahora necesitamos mostrar pilares en el puente, tendremos que usar un bucle que ponga pilares a uno y otro lado y por la parte de abajo. Podemos hacer un módulo como este:
+
+    module puente(longitud_x, anchura_y){
+        altura_puente=2;
+        altura_pilares=altura_puente*1.5;
+        cube([longitud_x, anchura_y, altura_puente,]);
+        for (x=[2:2:longitud_x]){
+            //Pilar a un lado
+            translate([x-1, anchura_y-1, -2])
+            cube([0.5, 0.5, altura_pilares]);
+            //Pilar al otro lado
+            translate([x-1, 1, -2])
+            cube([0.5, 0.5, altura_pilares]);
+        }
+    }
+
+
+Si ahora por ejemplo ponemos varios puente seguidos:
+
+    module puente(longitud_x, anchura_y){
+        altura_puente=2;
+        altura_pilares=altura_puente*1.5;
+        cube([longitud_x, anchura_y, altura_puente,]);
+        for (x=[2:2:longitud_x]){
+            //Pilar a un lado
+            translate([x-1, anchura_y-1, -2])
+            cube([0.5, 0.5, altura_pilares]);
+            //Pilar al otro lado
+            translate([x-1, 1, -2])
+            cube([0.5, 0.5, altura_pilares]);
+        } //Fin del for
+    } //Fin del módulo
+
+
+    longitud_puente=20;
+    anchura_puente=4;
+    numero_de_puentes=3;
+    for (x=[0:longitud_puente:longitud_puente*numero_de_puentes])
+    {
+        
+        translate([x, 0, 0])
+        puente (longitud_puente, anchura_puente);
+    } //Fin del for
+
+![Puentes encadenados](capturas/26-puente02.png)
+
+#Conclusión
+
+OpenSCAD ofrece una enorme potencia por medio de su lenguaje y gracias a su rendimiento, su disponibilidad y la posibilidad de exportar al formato STL es un software muy a tener en cuenta para el modelado.
