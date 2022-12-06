@@ -21,6 +21,7 @@ Este tutorial puede descargarse para su impresión en varios formatos:
 
 * [Tutorial de OpenSCAD en formato ODT (LibreOffice).](https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.odt)
 * [Tutorial de OpenSCAD en formato PDF.](https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.pdf)
+* [Tutorial de OpenSCAD en formato EPUB.](https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.epub)
 
 ## Primeros pasos
 
@@ -32,7 +33,7 @@ Aunque nosotros crearemos un proyecto nuevo vacío pulsando el botón "Nuevo", O
 
 ![Interfaz de OpenSCAD](capturas/02-interfaz.png){ width=100% }
 
-### Descripción del interfaz
+## Descripción del interfaz
 
 * En la parte izquierda podremos escribir la descripción de nuestros modelos.
 * En la parte central, arriba, podremos ver unos ejes de coordenadas:

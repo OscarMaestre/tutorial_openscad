@@ -1,0 +1,455 @@
+<h1 id="tutorial-de-openscad">Tutorial de OpenSCAD</h1>
+<h2 id="introducción">Introducción</h2>
+<p>OpenSCAD es un programa CAD (Computer Aided Design o Diseño asistido por ordenador) en 3D. La característica principal es que OpenSCAD <em>no se maneja usando el ratón</em> sino por medio de un lenguaje. Esto que a primera vista parece mucho más incómodo se vuelve en realidad mucho más potente cuando queremos construir estructuras repetitivas.</p>
+<p>El apartado interesante de los programas de este tipo es la capacidad de <strong>imprimir las piezas</strong> usando una impresora en 3D. Aunque no se disponga de una, hay muchos servicios en Internet que las imprimen y envían a domicilio a precios cada día menores.</p>
+<p>OpenSCAD tiene versiones para los principales sistemas operativos: Windows, Mac y Linux y no necesita instalación: puede descargarse un ZIP, descomprimirlo y simplemente ejecutar el programa</p>
+<h2 id="descargas">Descargas</h2>
+<p>Este tutorial puede descargarse para su impresión en varios formatos:</p>
+<ul>
+<li><a href="https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.odt">Tutorial de OpenSCAD en formato ODT (LibreOffice).</a></li>
+<li><a href="https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.pdf">Tutorial de OpenSCAD en formato PDF.</a></li>
+<li><a href="https://github.com/OscarMaestre/tutorial_openscad/raw/main/descargables/TutorialOpenSCAD.epub">Tutorial de OpenSCAD en formato EPUB.</a></li>
+</ul>
+<h2 id="primeros-pasos">Primeros pasos</h2>
+<p>Al ejecutar el programa veremos algo como esto:</p>
+<figure>
+<img src="capturas/01-inicio.png" style="width:100.0%" alt="" /><figcaption>Ventana inicial</figcaption>
+</figure>
+<p>Aunque nosotros crearemos un proyecto nuevo vacío pulsando el botón “Nuevo”, OpenSCAD ofrece algunos ejemplos creados y que nos permiten ver algunas de las capacidades. Despues de crear un nuevo proyecto, veremos algo como esto:</p>
+<figure>
+<img src="capturas/02-interfaz.png" style="width:100.0%" alt="" /><figcaption>Interfaz de OpenSCAD</figcaption>
+</figure>
+<h2 id="descripción-del-interfaz">Descripción del interfaz</h2>
+<ul>
+<li><p>En la parte izquierda podremos escribir la descripción de nuestros modelos.</p></li>
+<li><p>En la parte central, arriba, podremos ver unos ejes de coordenadas:</p>
+<ul>
+<li>Observa el eje de las X, está en rojo y apunta hacia la derecha: esto significa que en principio, los valores positivos de X crecen en ese sentido.</li>
+<li>El eje de las Y apunta “hacia el interior de la pantalla”, en diagonal.</li>
+<li>El eje de las Z apunta hacia arriba.</li>
+</ul></li>
+<li><p>En la parte central, abajo, veremos un panel llamado “Consola”, nos permitirá ver el proceso que sigue OpenSCAD al construir nuestros modelos, incluyendo los errores que cometamos.</p></li>
+<li><p>En la parte central, derecha, veremos los errores que cometamos y el punto exacto donde los hemos cometido.</p></li>
+<li><p>En la parte derecha, veremos un panel llamado “Customizer” que nos permitirá modificar algunas opciones, en este tutorial <em>no lo usaremos</em></p></li>
+</ul>
+<h2 id="previsualización-y-renderizado">Previsualización y renderizado</h2>
+<p>OpenSCAD permite dos operaciones que aparentemente son iguales: previsualizar y renderizar.</p>
+<ul>
+<li><p>Previsualizar requiere pulsar F5 y nos permitirá ver los colores de las piezas (veremos los colores más adelante). Usa un algoritmo con aproximaciones, lo que lo hace más rápido pero también maś impreciso.</p></li>
+<li><p>Renderizar requiere pulsar F6. No muestra los colores de las piezas pero usa un algoritmo sin aproximaciones, por lo que el resultado que veremos será el que se obtenga al imprimir una pieza.</p></li>
+</ul>
+<h2 id="exportación-a-stl">Exportación a STL</h2>
+<p>Si en cualquier momento deseamos imprimir una pieza o enviarla a alguno de los servicios de impresión mencionados, casi con toda probabilidad necesitaremos exportar nuestro diseño al formato STL (viene de STereoLitography, un formato casi universal para la impresión de piezas).</p>
+<p>Esta opción está en el menú File, dentro de Export. Si usamos el programa en español será en Archivo, en la opción Exportar.</p>
+<h3 id="un-primer-modelo">Un primer modelo</h3>
+<p>Escribe en la parte izquierda el siguiente código:</p>
+<pre><code>cube ([12, 3, 4])</code></pre>
+<p>Pulsa despues F6 y verás algo como esto:</p>
+<figure>
+<img src="capturas/03-primer-modelo.png" style="width:100.0%" alt="" /><figcaption>Un primer modelo OpenSCAD</figcaption>
+</figure>
+<p>Si dejas pulsado el botón principal del ratón y “arrastras” el escenario, podrás cambiar el punto de vista. Si usas la rueda del ratón podrás cambiar la escala del modelo. Usa ambas posibilidades para explorar el modelo desde todos los puntos de vista.</p>
+<h2 id="elementos-básicos-del-lenguaje">Elementos básicos del lenguaje</h2>
+<p>Todo el lenguaje se basa en estas estructuras, presta especial atención a los puntos y comas:</p>
+<pre><code>//Construye un objeto
+objeto();
+
+//Asigna un valor a una variable
+variable=valor;
+
+//Un operador modifica algo, una acción realiza una tarea
+operador() accion();
+
+//Se pueden encadenar operadores
+operador() operador() accion();
+
+//Si queremos aplicar un operador
+//a varias acciones a la vez
+operador() { accion(); accion(); }</code></pre>
+<h2 id="valores-y-vectores">Valores y vectores</h2>
+<p>En una variable podemos almacenar números y textos. Si necesitamos trabajar con varios valores a la vez, se usan vectores, que van entre corchetes:</p>
+<pre><code>altura=10.2;
+nombre=&quot;Modelo A1&quot;;
+coordenadas=[12, 3, 4];</code></pre>
+<p>Es frecuente usar los vectores con coordenadas. De hecho, nuestro modelo inicial usaba las coordenadas <code>x=12</code>, <code>y=3</code>, <code>z=4</code>.</p>
+<h2 id="objetos-3d-cubo">Objetos 3D: cubo</h2>
+<p>Podemos crear cubos de dos maneras:</p>
+<pre><code>//Esto pone un cubo poniendo una esquina
+//en la coordenada [x=0, y=0, z=0] y la 
+//esquina opuesta en [12, 3, 4]
+cube( [12, 3, 4] );
+
+//Esto pone el &quot;centro del cubo&quot; 
+//en la coordenada [x=0, y=0, z=0] y 
+//hace que el cubo mida 12 en el eje X,
+//3 en la y y 4 en la z
+cube( [12, 3, 4], center=true);</code></pre>
+<figure>
+<img src="capturas/03a-primer-modelo-centrado.png" style="width:100.0%" alt="" /><figcaption>El mismo modelo centrado</figcaption>
+</figure>
+<p>Si combinamos este proceso con variables, podemos hacer cosas como esta:</p>
+<pre><code>ancho_x=12;
+alto_z=4;
+profundo_y=3;
+cube( [ancho_x, profundo_y, alto_z], center=true);</code></pre>
+<p>Esto produce <strong>exactamente el mismo resultado</strong> pero esta forma de trabajar nos resultará útil más adelante.</p>
+<h2 id="operadores-traslación">Operadores: traslación</h2>
+<p>Es posible hacer que un objeto se traslado a otro punto del espacio usando <code>translate([x, y, z])</code>. Por ejemplo, hagamos esto:</p>
+<pre><code>//Esta parte es igual que la anterior
+ancho_x=12;
+alto_z=4;
+profundo_y=3;
+cube( [ancho_x, profundo_y, alto_z], center=true);
+
+arista_cubo=3;
+//Observa que esto es una sola línea
+translate([0, 0, profundo_y]) 
+    cube ([arista_cubo,arista_cubo,arista_cubo], center=true);
+
+//Y esto es también una sola línea
+translate([0, 0, profundo_y+arista_cubo]) 
+    cube ([ancho_x, profundo_y, alto_z], center=true);</code></pre>
+<p>Deberías ver algo como esto:</p>
+<figure>
+<img src="capturas/04-h.png" style="width:100.0%" alt="" /><figcaption>Pieza en H</figcaption>
+</figure>
+<p>Observa ahora el potencial de usar las variables. Vamos a modificar <code>ancho_x</code> y lo ponemos a 20 (omitimos los comentarios por brevedad):</p>
+<pre><code>ancho_x=20;
+alto_z=4;
+profundo_y=3;
+cube( [ancho_x, profundo_y, alto_z], center=true);
+
+arista_cubo=3;
+translate([0, 0, profundo_y]) 
+    cube ([arista_cubo,arista_cubo,arista_cubo], center=true);
+
+translate([0, 0, profundo_y+arista_cubo]) 
+    cube ([ancho_x, profundo_y, alto_z], center=true);</code></pre>
+<figure>
+<img src="capturas/05-parametros1.png" style="width:100.0%" alt="" /><figcaption>Pieza en H alargada</figcaption>
+</figure>
+<p>Sin embargo, esto no implica que la pieza esté bien parametrizada. Prueba a cambiar el alto o la profundidad y verás que hay que recalcular. Se deja como ejercicio.</p>
+<h2 id="objetos-3d-esfera">Objetos 3D: esfera</h2>
+<p>Se usa así:</p>
+<pre><code>//Crea una esfera de radio 3
+sphere(r=3)</code></pre>
+<p>Si queremos crear una esfera en otro punto del espacio, podemos usar <code>translate</code>. Así, por ejemplo, esto crea dos esferas, una en el centro y la otra un poco más a la derecha:</p>
+<pre><code>sphere(r=2);
+translate([4, 0, 0]) sphere(r=2);</code></pre>
+<p>El resultado de este código es esto:</p>
+<figure>
+<img src="capturas/06-esferas-1.png" style="width:100.0%" alt="" /><figcaption>Esferas con baja resolución</figcaption>
+</figure>
+<p>Un detalle es que por defecto, las esferas tienen una resolución muy baja y de hecho prácticamente parecen poliedros. Si queremos aumentar la cantidad de “caras” que tienen las esferas podemos usar un parámetro extra llamado <code>$fn</code> que regula esto:</p>
+<pre><code>//Esferas con alta resolución
+sphere(r=2, $fn=40);
+translate([4, 0, 0]) sphere(r=2, $fn=40);</code></pre>
+<figure>
+<img src="capturas/06-esferas-2.png" style="width:100.0%" alt="" /><figcaption>Esferas con alta resolución</figcaption>
+</figure>
+<p>El parámetro $fn indica la cantidad de fragmentos por arco. El programa recomienda mantenerse por debajo de 50 y no poner nunca valores mayores de 128.</p>
+<h2 id="objetos-3d-cilindro">Objetos 3D: cilindro</h2>
+<p>Todo cilindro debe llevar una altura, un radio asociado al círculo de la base inferior y un radio asociado al círculo de la base superior. También puede llevar un parámetro <code>center=true</code> que actúa igual que con los cubos:</p>
+<pre><code>//Creamos un tronco de cono con una resolución intermedia
+cylinder(5, 2, 1, $fn=40);
+
+//Y al lado un cilindro normal cuyo &quot;centro&quot; 
+//está en el punto al que ha sido trasladado
+translate([7, 0, 0]) cylinder(5, 1.5, 1.5, center=true, $fn=40);</code></pre>
+<figure>
+<img src="capturas/07-cilindros.png" style="width:100.0%" alt="" /><figcaption>Cilindro</figcaption>
+</figure>
+<p>Aunque <code>cylinder</code> está pensado para crear cilindros se puede jugar con valores bajos de <code>$fn</code> y crear prismas. A modo de ejercicio se anima al lector a probar con valores de $fn de 3, 4, y 5</p>
+<h2 id="operadores-rotación">Operadores: rotación</h2>
+<p>Permite rotar uno o varios objetos en varios ejes. La rotación se mide en grados:</p>
+<pre><code>//Cubo que mide:
+//10 unidades en el eje X
+//5  unidades en el eje Y
+//20 unidades en el eje Z
+cube([10, 5, 20], center=true);</code></pre>
+<figure>
+<img src="capturas/08-caja-sin-rotar.png" style="width:100.0%" alt="" /><figcaption>Caja</figcaption>
+</figure>
+<p>Si ahora rotamos en el eje de las X:</p>
+<pre><code>//EXACTAMENTE el mismo
+//objeto, pero movido 45 grados
+//usando x como eje de rotación 
+rotate(a=[45, 0,0]) cube([10, 5, 20], center=true);</code></pre>
+<p>Obtenemos esto:</p>
+<figure>
+<img src="capturas/08-caja-rotada-x.png" style="width:100.0%" alt="" /><figcaption>Caja rotada en el eje de las X</figcaption>
+</figure>
+<p>O rotamos en el eje de las Y:</p>
+<pre><code>//EXACTAMENTE el mismo
+//objeto, pero movido 60 grados
+//usando y como eje de rotación 
+rotate(a=[0, 60,0]) cube([10, 5, 20], center=true);</code></pre>
+<p>Lo que produce esto otro:</p>
+<figure>
+<img src="capturas/08-caja-rotada-y.png" style="width:100.0%" alt="" /><figcaption>Caja rotada en el eje de las Y</figcaption>
+</figure>
+<p>Para saber en qué sentido se usa la <strong>regla de la mano derecha.</strong> Movemos nuestra mano hasta que el pulgar se alinee con el sentido positivo de un eje y luego observamos el sentido de giro de los dedos (imagen tomada de Wikipedia)</p>
+<figure>
+<img src="capturas/09-mano.png" style="width:100.0%" alt="" /><figcaption>Regla mano derecha</figcaption>
+</figure>
+<p>Así, por ejemplo, para saber como funciona una rotación sobre el eje X ponemos nuestro pulgar apuntando hacia la derecha y observamos como los dedos indican que el objeto “se inclinará hacia nosotros” al poner una rotación positiva. Si rotamos usando Z, pondremos el pulgar hacia arriba y veremos que entonces el objeto rota “desde nuestra derecha hacia nuestra izquierda”.</p>
+<h2 id="operadores-encadenamiento-de-operadores-y-color">Operadores: encadenamiento de operadores y color</h2>
+<p>Para ver esto, se debe usar la <em>previsualización</em> de piezas con F5, no el renderizado completo con F6.</p>
+<p>Esto <strong>no influye en nada si imprimimos una pieza</strong> pero puede ser útil. Podemos modificar el color de una pieza usando valores RGB con valores comprendidos entre 0.0 (que indica el mínimo de ese color) hasta 1.0 (que indica el máximo de ese color).</p>
+<p>Para el ejemplo siguiente hemos encadenado varios operadores uno detrás de otro, lo que implica poder hacer varias transformaciones a la vez a una pieza determinada:</p>
+<pre><code>//Cubo completamente rojo
+//con una esquina en el centro
+color([1, 0, 0]) 
+    cube([10, 10, 10]);
+
+
+//Cubo verde ubicado
+//a la derecha
+color([0, 1, 0])
+    translate([12, 0, 0])
+    cube([10, 10, 10]);
+    
+//Cubo azul ubicado
+//aún más a la derecha
+color([0, 0, 1])
+    translate([24, 0, 0])
+    cube([10, 10, 10]);</code></pre>
+<p>Que produce esto:</p>
+<figure>
+<img src="capturas/10-colores.png" style="width:100.0%" alt="" /><figcaption>Cubos de colores</figcaption>
+</figure>
+<h2 id="operadores-redimensionado">Operadores: redimensionado</h2>
+<p>Se puede deformar un objeto cualquiera usando <code>resize</code> y <code>scale</code>.</p>
+<ul>
+<li>El operador <code>scale</code> usa <em>escalas</em>, así que si indicamos una escala como <code>[2, 1.5, 0.5]</code> haremos que un objeto sea <em>el doble mayor</em> en X, <em>un 50% más grande</em> en Y y un <em>50% más pequeño</em> en Z.</li>
+<li>El operador <code>resize</code> usa <em>cajas</em>. Si por ejemplo indicamos que un objeto se redimensione usando <code>[30, 40, 10]</code> indicaremos que el objeto deme pasar a medir 30 en el eje X, 40 en Y y 10 en Z. Esta operación requiere bastante precisión y puede ser más lenta de renderizar.</li>
+</ul>
+<p>Aquí tenemos dos esferas:</p>
+<pre><code>/*Una esfera normal*/
+sphere(r=10);
+//Una esfera tan &quot;achatada&quot;
+//que se ha convertido en disco
+scale ([1, 1, 0.2]) 
+    translate([20, 20, 0])
+        sphere(r=10);</code></pre>
+<figure>
+<img src="capturas/11-escalado.png" style="width:100.0%" alt="" /><figcaption>Una esfera escalada</figcaption>
+</figure>
+<p>Si hacemos esto con <code>resize</code></p>
+<figure>
+<img src="capturas/12-resize.png" style="width:100.0%" alt="" /><figcaption>Escalado con resize</figcaption>
+</figure>
+<p>Obsérvese que en este caso, no es lo mismo aplicar primero <code>resize</code> y luego <code>translate</code> que hacer <code>translate</code> y luego <code>resize</code></p>
+<h2 id="objetos-2d">Objetos 2D</h2>
+<p>Las figuras 2D solo se muestran con la previsualización (F5). En el modo renderizado solo se ve su silueta.</p>
+<p>Por supuesto, a los objetos 2D se les pueden aplicar las transformaciones que ya conocemos: traslación, escalado, redimensionado y coloreado.</p>
+<h2 id="objetos-2d-rectángulos">Objetos 2D: rectángulos</h2>
+<p>En cuando al código se puede usar esto para crear rectángulos. Recuérdese que un cuadrado es un rectángulo con ambos lados iguales:</p>
+<pre><code>square([10,20],  center=true);</code></pre>
+<figure>
+<img src="capturas/13-cuadrado.png" style="width:100.0%" alt="" /><figcaption>Cuadrado</figcaption>
+</figure>
+<h2 id="objetos-2d-círculos">Objetos 2D: círculos</h2>
+<p>Esto crea un círculo de radio 10:</p>
+<pre><code>circle(10);</code></pre>
+<p><img src="capturas/14-circulo.png" alt="Círculo" />{width=100%]</p>
+<p>Y simular una elipse usando el reescalado con <code>scale</code> :</p>
+<pre><code>//Podemos construir 
+//una elipse escalando
+//un círculo
+scale([2, 0.5])
+    circle(10);</code></pre>
+<p><img src="capturas/15-elipse.png" alt="Elipse" />{width=100%]</p>
+<h2 id="objetos-2d-polígonos-regulares">Objetos 2D: polígonos regulares</h2>
+<p>Usando <code>circle</code> se pueden construir polígonos regulares usando <code>$fn</code> y pasando el número de caras del polígono. Aquí se muestra un pentágono:</p>
+<pre><code>//Pentágono
+circle(10, $fn=5);</code></pre>
+<p><img src="capturas/16-pentagono.png" alt="Pentágono" />{width=100%]</p>
+<h2 id="objetos-2d-polígonos-irregulares">Objetos 2D: polígonos irregulares</h2>
+<p>Si indicamos una secuencia de puntos a la función <code>polygon</code> podremos crear polígonos con cualquier forma:</p>
+<pre><code>polygon([
+    [0,0], 
+    [7,0],
+    [4,8],
+    [2,6]
+]);</code></pre>
+<figure>
+<img src="capturas/17-poligono-irregular.png" alt="" /><figcaption>Polígono irregular</figcaption>
+</figure>
+<h2 id="objetos-2d-texto">Objetos 2d: texto</h2>
+<p>Para escribir un texto en el modelo podemos usar <code>text</code>::</p>
+<pre><code>//Cubo
+cube([10, 10, 10]);
+
+//Un texto movido hacia abajo,
+//un poco empequeñecido
+//y de color azul
+translate([0, -5, 0])
+    scale([0.5, 0.5, 0.5])
+        color([0.5, 0.75, 1])
+            text(&quot;Cubo&quot;);</code></pre>
+<figure>
+<img src="capturas/19-texto.png" style="width:100.0%" alt="" /><figcaption>Texto</figcaption>
+</figure>
+<h2 id="operadores-extrusión">Operadores: extrusión</h2>
+<p>Un polígono 2D se puede “prolongar” a lo largo del eje Z y así <strong>construir una figura 3D a partir de un polígono 2D</strong>. A esta operación se le denomina “extruir”. Tomemos el polígono anterior y extruyámoslo a lo largo de 20 puntos del eje Z:</p>
+<pre><code>linear_extrude(10)
+    polygon([
+        [0,0], 
+        [7,0],
+        [4,8],
+        [2,6]
+    ]);</code></pre>
+<figure>
+<img src="capturas/18-extrusion.png" style="width:100.0%" alt="" /><figcaption>Polígono extruido</figcaption>
+</figure>
+<p>La extrusión acepta un parámetro <code>twist</code> que permite indicar si el objeto irá girando mientras “se estira”::</p>
+<pre><code>//Pentágono extruido 
+//10 unidades hacia arriba
+//Va girando hacia arriba hasta
+//terminar girado 45 grados
+//respecto al original
+//y con 100 &quot;secciones&quot; en total
+linear_extrude(10, twist=45, slices=100)
+    circle(5, $fn=5);
+    
+    </code></pre>
+<figure>
+<img src="capturas/20-extrusion-rotada.png" style="width:100.0%" alt="" /><figcaption>Pentágono extruido y rotado</figcaption>
+</figure>
+<h2 id="operadores-extrusión-ii-superficies-en-revolución">Operadores: extrusión II, superficies en revolución</h2>
+<p>Si tomamos un polígono irregular y lo rotamos sobre un cierto eje, podemos hacer “girar” dicha superficie y construir un objeto 3D a partir de uno 2D. Tomemos el polígono irregular que construimos antes y hagámoslo girar con <code>rotate_extrude</code>::</p>
+<pre><code>rotate_extrude($fn=40)
+    polygon([
+        [0,0], 
+        [7,0],
+        [4,8],
+        [2,6]
+    ]);</code></pre>
+<figure>
+<img src="capturas/21-revolucion.png" style="width:100.0%" alt="" /><figcaption>Superficie de revolución</figcaption>
+</figure>
+<h2 id="operadores-diferencia">Operadores: diferencia</h2>
+<p>Es posible tomar un objeto en 3D y “restarle” otro. De esa manera, tendremos la figura primera pero con parte de ella eliminada. Observemos como podemos tener un prisma y una esfera ocupando el mismo espacio:</p>
+<pre><code>//Primer operando: un cubo
+cube([10, 10, 10], center=true);
+
+//Segundo operando: esfera movida
+//arriba
+translate([0, 0, 5])
+    sphere(2.5, $fn=30);</code></pre>
+<figure>
+<img src="capturas/22-figuras-unidas.png" alt="" /><figcaption>Cubo y esfera</figcaption>
+</figure>
+<p>Sin embargo, si hacemos que esto en realidad sea una resta:</p>
+<pre><code>difference()
+{
+    //Primer operando: un cubo
+    cube([10, 10, 10], center=true);
+
+    //Segundo operando: esfera movida
+    //arriba
+
+    translate([0, 0, 5])
+        sphere(2.5, $fn=30);
+} //Fin de la diferencia</code></pre>
+<figure>
+<img src="capturas/23-diferencia.png" alt="" /><figcaption>Diferencia entre piezas</figcaption>
+</figure>
+<h2 id="bucles">Bucles</h2>
+<p>En OpenSCAD es posible repetir operaciones usando <code>for</code> Dentro de <code>for</code> podemos tener una o varias variables que vayan cambiando de valor y utilizar dichas variables en piezas que tengan características comunes:</p>
+<pre><code>//Esto pone esferas de radio 1 a 
+//lo largo del eje X, poniendo
+//en X valores desde -20 hasta +20
+//y avanzando de 4 en 4.
+//Es decir, se pone una esfera
+//de radio 1 en x=-20, x=-16,
+//x=-12, ...x=12, x=16, x=20
+for(x=[-20:4:20])
+{
+    translate([x, 0, 0])
+        sphere(1, $fn=10);
+}</code></pre>
+<figure>
+<img src="capturas/24-bucle-esferas.png" alt="" /><figcaption>Bucle con esferas</figcaption>
+</figure>
+<p>Aunque se pueden usar bucles <code>for</code> dentro de otros bucles <code>for</code> en OpenSCAD se pueden poner directamente todas las variables que queramos cambiar y OpenSCAD irá generando todas las combinaciones de valores posibles.</p>
+<p>Por ejemplo, aquí se muestra un programa que pone esferas a lo largo de un plano entero. Este programa genera muchos objetos y puede que tarde un minuto o más en renderizar el resultado, así que puede ser útil usar F5 (Previsualizar) en lugar de F6 (Renderizar)</p>
+<pre><code>for (x=[-20:4:20], y=[-20:4:20]){
+    translate([x, y, 0])
+        sphere(1, $fn=10);
+}</code></pre>
+<figure>
+<img src="capturas/25-matriz-esferas.png" alt="" /><figcaption>Plano de esferas</figcaption>
+</figure>
+<h2 id="funciones-y-módulos">Funciones y módulos</h2>
+<p>Es posible construir nuestras propios subprogramas:</p>
+<ul>
+<li>Las funciones devuelven valores.</li>
+<li>Los módulos realizan operaciones.</li>
+</ul>
+<p>Las funciones se definen así:</p>
+<pre><code>funcion nombre(parametro1, parametro2)= valor</code></pre>
+<p>Podemos poner tantos parámetros como queramos y el valor puede ser un resultado tan complejo como queramos. De hecho, es frecuente que sea necesario usar paréntesis para poder determinar claramente como realizar el cálculo.</p>
+<p>Un módulo define una operación que puede ser mucho más compleja y que probablemente involucre crear una o más figuras. Se definen así:</p>
+<pre><code>module nombre(parametro1, parametro2)
+{
+    operacion1;
+    operacion2;
+    ...
+    operacionn;
+}</code></pre>
+<h2 id="un-ejemplo-de-construcción-de-módulo">Un ejemplo de construcción de módulo</h2>
+<p>Supongamos que queremos construir un módulo que nos permita construir un puente:</p>
+<pre><code>longitud_x      =10;
+anchura_y       =4;
+altura_puente   =6;
+
+cube([longitud_x, anchura_y, altura_puente,]);</code></pre>
+<figure>
+<img src="capturas/26-casa01.png" alt="" /><figcaption>Casa, primer boceto</figcaption>
+</figure>
+<p>Si ahora necesitamos mostrar pilares en el puente, tendremos que usar un bucle que ponga pilares a uno y otro lado y por la parte de abajo. Podemos hacer un módulo como este:</p>
+<pre><code>module puente(longitud_x, anchura_y){
+    altura_puente=2;
+    altura_pilares=altura_puente*1.5;
+    cube([longitud_x, anchura_y, altura_puente,]);
+    for (x=[2:2:longitud_x]){
+        //Pilar a un lado
+        translate([x-1, anchura_y-1, -2])
+        cube([0.5, 0.5, altura_pilares]);
+        //Pilar al otro lado
+        translate([x-1, 1, -2])
+        cube([0.5, 0.5, altura_pilares]);
+    }
+}</code></pre>
+<p>Si ahora por ejemplo ponemos varios puente seguidos:</p>
+<pre><code>module puente(longitud_x, anchura_y){
+    altura_puente=2;
+    altura_pilares=altura_puente*1.5;
+    cube([longitud_x, anchura_y, altura_puente,]);
+    for (x=[2:2:longitud_x]){
+        //Pilar a un lado
+        translate([x-1, anchura_y-1, -2])
+        cube([0.5, 0.5, altura_pilares]);
+        //Pilar al otro lado
+        translate([x-1, 1, -2])
+        cube([0.5, 0.5, altura_pilares]);
+    } //Fin del for
+} //Fin del módulo
+
+
+longitud_puente=20;
+anchura_puente=4;
+numero_de_puentes=3;
+for (x=[0:longitud_puente:longitud_puente*numero_de_puentes])
+{
+    
+    translate([x, 0, 0])
+    puente (longitud_puente, anchura_puente);
+} //Fin del for</code></pre>
+<figure>
+<img src="capturas/26-puente02.png" alt="" /><figcaption>Puentes encadenados</figcaption>
+</figure>
+<p>#Conclusión</p>
+<p>OpenSCAD ofrece una enorme potencia por medio de su lenguaje y gracias a su rendimiento, su disponibilidad y la posibilidad de exportar al formato STL es un software muy a tener en cuenta para el modelado.</p>
